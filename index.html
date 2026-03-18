@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Milver Paitan — Digital Strategist</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0a0a0a;
+  --bg1:    #111111;
+  --bg2:    #161616;
+  --text:   #e9e4dc;
+  --muted:  #5a5750;
+  --soft:   #2a2925;
+  --accent: #c8a96e;
+  --border: rgba(232,228,220,0.07);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  cursor: none;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── CURSOR ── */
+#cur  { position:fixed; width:5px; height:5px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .2s, height .2s; }
+#cur2 { position:fixed; width:28px; height:28px; border:1px solid rgba(200,169,110,.35); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .25s, height .25s, border-color .25s; }
+.on-hover #cur  { width:3px; height:3px; }
+.on-hover #cur2 { width:44px; height:44px; border-color:rgba(200,169,110,.6); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display: flex; justify-content:space-between; align-items:center;
+  padding: 2rem 5rem;
+  transition: padding .4s, background .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+nav.s {
+  padding: 1.2rem 5rem;
+  background: rgba(10,10,10,.92);
+  backdrop-filter: blur(18px);
+  border-color: var(--border);
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+.logo span { color: var(--accent); }
+.nav-ul { display:flex; gap:3rem; list-style:none; }
+.nav-ul a {
+  font-size: .7rem;
+  font-weight: 300;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-ul a:hover { color: var(--text); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-line {
+  position: absolute; top:0; right:28%; bottom:0;
+  width: 1px;
+  background: var(--border);
+}
+.hero-line2 {
+  position: absolute; top:0; right:0; bottom:0; left:60%;
+  width: 1px;
+  background: var(--border);
+}
+.hero-body { position:relative; z-index:1; max-width:780px; }
+
+.h-eyebrow {
+  font-size: .65rem;
+  font-weight: 300;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  display: flex; align-items:center; gap:.8rem;
+  opacity:0; animation: up .7s ease .1s both;
+}
+.h-dot { width:4px; height:4px; border-radius:50%; background:var(--accent); flex-shrink:0; animation: blink 2.5s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+.h-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: .93;
+  letter-spacing: -.02em;
+  font-weight: 400;
+  margin-bottom: .6em;
+  opacity:0; animation: up .8s ease .2s both;
+}
+.h-name em { font-style: italic; color: var(--accent); }
+
+.h-role {
+  font-size: .8rem;
+  font-weight: 300;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  opacity:0; animation: up .8s ease .35s both;
+}
+.h-role span { color: var(--text); }
+
+.h-desc {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--muted);
+  max-width: 480px;
+  margin-bottom: 3rem;
+  opacity:0; animation: up .8s ease .45s both;
+}
+
+.h-ctas {
+  display:flex; gap:1rem;
+  opacity:0; animation: up .8s ease .55s both;
+}
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .68rem;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: .85rem 2.2rem;
+  border: 1px solid;
+  cursor: none;
+  transition: all .35s;
+  background: transparent;
+}
+.btn-a {
+  border-color: var(--accent);
+  color: var(--bg);
+  background: var(--accent);
+}
+.btn-a:hover { background:transparent; color:var(--accent); }
+.btn-b { border-color: var(--border); color: var(--muted); }
+.btn-b:hover { border-color: rgba(232,228,220,.25); color: var(--text); }
+
+.h-stats {
+  position: absolute; right:5rem; bottom:4rem;
+  display:flex; gap:3rem;
+  opacity:0; animation: up .8s ease .7s both;
+}
+.h-st { text-align:right; }
+.h-st-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  color: var(--text);
+  line-height:1;
+}
+.h-st-l { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-top:.3rem; }
+
+.scroll-hint {
+  position:absolute; bottom:2.5rem; left:5rem;
+  display:flex; align-items:center; gap:1rem;
+  font-size:.58rem; letter-spacing:.25em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation: up .8s ease .9s both;
+}
+.sh-line { width:40px; height:1px; background:var(--border); }
+
+@keyframes up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+
+/* ── COMMON ── */
+.wrap { max-width:1240px; margin:0 auto; }
+.sec { padding:9rem 5rem; }
+.sec-label {
+  font-size:.6rem; font-weight:300; letter-spacing:.35em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:.7rem;
+  display:flex; align-items:center; gap:.7rem;
+}
+.sec-label::before { content:''; width:24px; height:1px; background:var(--accent); }
+.sec-title {
+  font-family:'DM Serif Display', serif;
+  font-size:clamp(2.2rem,4.5vw,4rem);
+  font-weight:400; line-height:1.05;
+  letter-spacing:-.01em; margin-bottom:3.5rem;
+}
+.sec-title em { font-style:italic; color:var(--accent); }
+
+/* ── SERVICES ── */
+#services { background:var(--bg1); }
+.srv-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+}
+.srv {
+  background:var(--bg1);
+  padding:3rem 2.5rem 2.5rem;
+  position:relative; overflow:hidden;
+  transition:background .35s;
+  cursor:none;
+}
+.srv::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0;
+  height:2px;
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+.srv:hover { background:var(--bg2); }
+.srv:hover::after { transform:scaleX(1); }
+.srv-n { font-size:.58rem; letter-spacing:.2em; color:var(--muted); margin-bottom:2rem; font-family:'DM Serif Display',serif; font-style:italic; }
+.srv-icon { font-size:1.5rem; margin-bottom:1.2rem; display:block; }
+.srv-title { font-family:'DM Serif Display',serif; font-size:1.3rem; font-weight:400; margin-bottom:.8rem; line-height:1.2; }
+.srv-desc { font-size:.82rem; font-weight:300; line-height:1.8; color:var(--muted); }
+.srv-tags { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1.5rem; }
+.tag {
+  font-size:.58rem; letter-spacing:.1em;
+  padding:.25rem .7rem;
+  border:1px solid var(--border);
+  color:var(--muted);
+  transition:all .3s;
+}
+.srv:hover .tag { border-color:rgba(200,169,110,.2); color:rgba(200,169,110,.7); }
+
+/* ── AUTOMATION ── */
+#automation { background:var(--bg); }
+.auto-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:7rem; align-items:center;
+}
+/* flow */
+.flow { display:flex; flex-direction:column; gap:0; }
+.fnode {
+  display:flex; align-items:center; gap:1.2rem;
+  padding:.95rem 1.4rem;
+  border:1px solid var(--border);
+  background:var(--bg1);
+  margin-bottom:2px;
+  transition:border-color .3s, background .3s;
+  cursor:none; position:relative;
+}
+.fnode:hover { border-color:rgba(200,169,110,.3); background:var(--bg2); }
+.fnode-connector {
+  position:absolute; left:2.4rem; bottom:-2px; z-index:1;
+  width:1px; height:2px; background:var(--border);
+}
+.fnode:last-child .fnode-connector { display:none; }
+.fi {
+  width:32px; height:32px; border-radius:3px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; flex-shrink:0;
+  background:var(--soft);
+}
+.ft h4 { font-size:.8rem; font-weight:400; letter-spacing:.02em; }
+.ft p  { font-size:.62rem; color:var(--muted); font-weight:300; margin-top:.1rem; }
+.fstatus {
+  margin-left:auto; flex-shrink:0;
+  font-size:.55rem; letter-spacing:.12em; text-transform:uppercase;
+  padding:.2rem .65rem;
+  border:1px solid rgba(200,169,110,.2);
+  color:var(--accent);
+}
+.auto-text p { font-size:.88rem; font-weight:300; line-height:1.9; color:var(--muted); margin-bottom:1rem; }
+.auto-text strong { color:var(--text); font-weight:400; }
+.platforms { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.8rem; }
+.plat {
+  font-size:.62rem; font-weight:300; letter-spacing:.12em; text-transform:uppercase;
+  padding:.4rem 1rem;
+  border:1px solid var(--border);
+  color:var(--muted);
+  transition:all .3s; cursor:none;
+  display:flex; align-items:center; gap:.5rem;
+}
+.plat:hover { border-color:rgba(200,169,110,.4); color:var(--accent); }
+.plat-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+
+/* ── METRICS ── */
+#metrics { background:var(--bg1); }
+.met-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border); margin-bottom:5rem;
+}
+.met {
+  background:var(--bg1);
+  padding:3rem 2rem; text-align:center;
+  position:relative; transition:background .3s;
+}
+.met::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:1px; height:0; background:var(--accent);
+  transition:height .6s cubic-bezier(.4,0,.2,1);
+}
+.met.in::before { height:40px; }
+.met:hover { background:var(--bg2); }
+.met-n {
+  font-family:'DM Serif Display',serif;
+  font-size:3rem; font-weight:400;
+  color:var(--text); line-height:1; margin-bottom:.4rem;
+}
+.met-l { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); font-weight:300; }
+.met-s { font-size:.62rem; color:var(--accent); margin-top:.4rem; font-weight:300; }
+
+.skills-cols { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+.skill { margin-bottom:1.4rem; }
+.sk-hd { display:flex; justify-content:space-between; margin-bottom:.5rem; }
+.sk-name { font-size:.78rem; font-weight:300; letter-spacing:.04em; }
+.sk-pct { font-size:.7rem; color:var(--accent); font-weight:300; }
+.sk-track { height:1px; background:var(--border); position:relative; }
+.sk-fill {
+  position:absolute; top:0; left:0; height:100%;
+  background:var(--accent); width:0;
+  transition:width 1.4s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(200,169,110,.35);
+}
+
+/* ── ABOUT ── */
+#about { background:var(--bg); }
+.about-grid {
+  display:grid; grid-template-columns:340px 1fr;
+  gap:7rem; align-items:start;
+}
+.photo-wrap { position:relative; }
+.photo-box {
+  aspect-ratio:3/4;
+  background:var(--bg1);
+  border:1px solid var(--border);
+  overflow:hidden;
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+}
+.photo-box img { 
+  width:100%; 
+  height:100%; 
+  object-fit:contain; 
+  display:block; 
+  transform: translateX(-20px) scale(1.1);
+}
+.photo-ph { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.photo-upload {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:.6rem; text-align:center;
+  background:rgba(10,10,10,.75);
+  border-top:1px solid var(--border);
+  font-size:.58rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--muted); cursor:none; transition:color .3s;
+}
+.photo-upload:hover { color:var(--accent); }
+.photo-corner {
+  position:absolute; width:12px; height:12px;
+}
+.photo-corner.tl{top:-1px;left:-1px;border-top:1px solid var(--accent);border-left:1px solid var(--accent);}
+.photo-corner.tr{top:-1px;right:-1px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);}
+.photo-corner.bl{bottom:-1px;left:-1px;border-bottom:1px solid var(--accent);border-left:1px solid var(--accent);}
+.photo-corner.br{bottom:-1px;right:-1px;border-bottom:1px solid var(--accent);border-right:1px solid var(--accent);}
+
+.about-text p { font-size:.9rem; font-weight:300; line-height:1.95; color:var(--muted); margin-bottom:1rem; }
+.about-text strong { color:var(--text); font-weight:400; }
+.roles { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.8rem 0 2.5rem; }
+.role {
+  font-size:.6rem; font-weight:300; letter-spacing:.14em; text-transform:uppercase;
+  padding:.35rem .9rem;
+  border:1px solid var(--border);
+  color:var(--muted);
+  transition:all .3s; cursor:none;
+}
+.role:hover { border-color:rgba(200,169,110,.35); color:var(--accent); }
+.about-divider { width:40px; height:1px; background:var(--accent); margin:2rem 0; }
+
+/* ── CONTACT ── */
+#contact { background:var(--bg1); }
+.ct-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:7rem; align-items:start;
+}
+.ct-text p { font-size:.9rem; font-weight:300; line-height:1.9; color:var(--muted); margin-bottom:2rem; }
+.ct-links { display:flex; flex-direction:column; }
+.ct-link {
+  display:flex; align-items:center; gap:1rem;
+  padding:.9rem 0;
+  border-bottom:1px solid var(--border);
+  color:var(--muted); text-decoration:none;
+  font-size:.78rem; font-weight:300; letter-spacing:.04em;
+  transition:all .3s; cursor:none;
+}
+.ct-link:hover { color:var(--text); }
+.ct-link:hover .ct-arr { opacity:1; transform:translateX(4px); }
+.ct-ico { width:28px; height:28px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; transition:border-color .3s; }
+.ct-link:hover .ct-ico { border-color:rgba(200,169,110,.4); }
+.ct-arr { margin-left:auto; opacity:.2; transition:all .3s; font-size:.75rem; }
+
+.ct-form { display:flex; flex-direction:column; gap:1.2rem; }
+.cf-g { display:flex; flex-direction:column; gap:.4rem; }
+.cf-l { font-size:.58rem; font-weight:300; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.cf-i, .cf-ta {
+  background:transparent;
+  border:none; border-bottom:1px solid var(--border);
+  padding:.7rem 0;
+  font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:300;
+  color:var(--text); outline:none; transition:border-color .3s;
+}
+.cf-i:focus, .cf-ta:focus { border-color:rgba(200,169,110,.5); }
+.cf-ta { resize:none; min-height:100px; }
+.btn-send {
+  margin-top:.5rem; align-self:flex-start;
+  padding:.85rem 2.4rem;
+  background:transparent;
+  border:1px solid var(--accent);
+  color:var(--accent);
+  font-family:'DM Sans',sans-serif;
+  font-size:.68rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase;
+  cursor:none; transition:all .35s;
+}
+.btn-send:hover { background:var(--accent); color:var(--bg); }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding:2rem 5rem;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.f-logo { font-family:'DM Serif Display',serif; font-size:1rem; color:var(--text); }
+.f-logo em { font-style:italic; color:var(--accent); }
+.f-copy { font-size:.6rem; font-weight:300; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+
+/* ── REVEAL ── */
+.r  { opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease; }
+.rl { opacity:0; transform:translateX(-28px); transition:opacity .9s ease, transform .9s ease; }
+.r.in, .rl.in { opacity:1; transform:none; }
+
+@media(max-width:900px){
+  nav, nav.s { padding:1rem 1.5rem; }
+  .nav-ul { display:none; }
+  .sec, #services, #automation, #metrics, #about, #contact { padding:5rem 1.5rem; }
+  #hero { padding:0 1.5rem; }
+  .h-stats { display:none; }
+  .scroll-hint { left:1.5rem; }
+  .srv-grid, .auto-grid, .about-grid, .ct-grid, .skills-cols { grid-template-columns:1fr; gap:3rem; }
+  .met-grid { grid-template-columns:repeat(2,1fr); }
+  footer { flex-direction:column; gap:1rem; padding:2rem 1.5rem; }
+  .h-ctas { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="logo">Milver <em style="font-style:italic;color:var(--accent)">Paitan</em></a>
+  <ul class="nav-ul">
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#automation">Automatización</a></li>
+    <li><a href="#metrics">Resultados</a></li>
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-line"></div>
+  <div class="hero-line2"></div>
+  <div class="hero-body">
+    <p class="h-eyebrow"><span class="h-dot"></span> Disponible para proyectos · Lima, Perú</p>
+    <h1 class="h-name">Milver<br><em>Paitan</em></h1>
+    <p class="h-role">
+      <span>Trafficker Digital</span> &nbsp;·&nbsp;
+      <span>Automatizaciones</span> &nbsp;·&nbsp;
+      <span>CRM & Notion</span>
+    </p>
+    <p class="h-desc">
+      Diseño estrategias digitales que conectan campañas de alto impacto con sistemas automatizados inteligentes. Fotografía, diseño y visión creativa cuando el proyecto lo necesita.
+    </p>
+    <div class="h-ctas">
+      <button class="btn btn-a" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Trabajemos juntos</button>
+      <button class="btn btn-b" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Ver servicios</button>
+    </div>
+  </div>
+  <div class="h-stats">
+    <div class="h-st">
+      <div class="h-st-n" data-count="120">0</div>
+      <div class="h-st-l">Campañas</div>
+    </div>
+    <div class="h-st">
+      <div class="h-st-n" data-count="5">0</div>
+      <div class="h-st-l">Años</div>
+    </div>
+    <div class="h-st">
+      <div class="h-st-n" data-count="80">0</div>
+      <div class="h-st-l">Clientes</div>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="sh-line"></div> Desplazar</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="sec">
+  <div class="wrap">
+    <div class="r"><p class="sec-label">Servicios</p></div>
+    <h2 class="sec-title r">Lo que hago<br><em>mejor</em></h2>
+    <div class="srv-grid">
+
+      <div class="srv r">
+        <div class="srv-n">01</div>
+        <span class="srv-icon">◈</span>
+        <h3 class="srv-title">Meta Ads & Trafficker Digital</h3>
+        <p class="srv-desc">Gestión y optimización de campañas en Meta Ads con enfoque en ROAS, escala y resultados medibles. Manejo de grandes presupuestos con precisión y estrategia.</p>
+        <div class="srv-tags">
+          <span class="tag">Facebook Ads</span><span class="tag">Instagram Ads</span>
+          <span class="tag">Retargeting</span><span class="tag">A/B Testing</span>
+        </div>
+      </div>
+
+      <div class="srv r" style="transition-delay:.1s">
+        <div class="srv-n">02</div>
+        <span class="srv-icon">◎</span>
+        <h3 class="srv-title">Automatizaciones & Bots</h3>
+        <p class="srv-desc">Creación de bots inteligentes y flujos automatizados en Kommo CRM y SendPulse. Convierte leads en clientes mientras duermes, con respuestas y seguimientos automáticos.</p>
+        <div class="srv-tags">
+          <span class="tag">Kommo CRM</span><span class="tag">SendPulse</span>
+          <span class="tag">Chatbots</span><span class="tag">WhatsApp</span>
+        </div>
+      </div>
+
+      <div class="srv r" style="transition-delay:.2s">
+        <div class="srv-n">03</div>
+        <span class="srv-icon">▣</span>
+        <h3 class="srv-title">CRM & Gestión de Pipelines</h3>
+        <p class="srv-desc">Implementación y administración de CRMs para optimizar el ciclo de ventas, mejorar la comunicación con leads y maximizar la conversión en cada etapa del funnel.</p>
+        <div class="srv-tags">
+          <span class="tag">Pipeline</span><span class="tag">Lead Scoring</span>
+          <span class="tag">Integrations</span><span class="tag">Analytics</span>
+        </div>
+      </div>
+
+      <div class="srv r" style="transition-delay:.1s">
+        <div class="srv-n">04</div>
+        <span class="srv-icon">◻</span>
+        <h3 class="srv-title">Notion — Sistemas & Productividad</h3>
+        <p class="srv-desc">Diseño y configuración de espacios de trabajo en Notion: bases de datos relacionales, dashboards de gestión, wikis de equipo y sistemas de productividad a medida.</p>
+        <div class="srv-tags">
+          <span class="tag">Bases de datos</span><span class="tag">Dashboards</span>
+          <span class="tag">Wikis</span><span class="tag">Templates</span>
+        </div>
+      </div>
+
+      <div class="srv r" style="transition-delay:.2s">
+        <div class="srv-n">05</div>
+        <span class="srv-icon">◉</span>
+        <h3 class="srv-title">Fotografía & Diseño Visual</h3>
+        <p class="srv-desc">Fotografía profesional, edición avanzada y diseño gráfico para marcas. Cada pieza visual está creada para comunicar, impactar y potenciar tu estrategia digital.</p>
+        <div class="srv-tags">
+          <span class="tag">Fotografía</span><span class="tag">Photoshop</span>
+          <span class="tag">Lightroom</span><span class="tag">Branding</span>
+        </div>
+      </div>
+
+      <div class="srv r" style="transition-delay:.3s">
+        <div class="srv-n">06</div>
+        <span class="srv-icon">◈</span>
+        <h3 class="srv-title">Edición de Video & Contenido</h3>
+        <p class="srv-desc">Edición de video profesional para anuncios, redes sociales y contenido de marca. Storytelling visual que engancha, retiene y convierte audiencias en clientes reales.</p>
+        <div class="srv-tags">
+          <span class="tag">Premiere Pro</span><span class="tag">Reels</span>
+          <span class="tag">Ads creatives</span><span class="tag">Motion</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION -->
+<section id="automation" class="sec">
+  <div class="wrap">
+    <div class="auto-grid">
+      <div class="rl">
+        <div class="flow">
+          <div class="fnode">
+            <div class="fi">🔔</div>
+            <div class="ft"><h4>Nuevo Lead Entrante</h4><p>Meta Ads → CRM</p></div>
+            <span class="fstatus">Live</span>
+            <div class="fnode-connector"></div>
+          </div>
+          <div class="fnode">
+            <div class="fi">✉️</div>
+            <div class="ft"><h4>Email de Bienvenida</h4><p>SendPulse automation</p></div>
+            <span class="fstatus">Active</span>
+            <div class="fnode-connector"></div>
+          </div>
+          <div class="fnode">
+            <div class="fi">💬</div>
+            <div class="ft"><h4>Bot de WhatsApp</h4><p>Respuesta instantánea 24/7</p></div>
+            <span class="fstatus">Running</span>
+            <div class="fnode-connector"></div>
+          </div>
+          <div class="fnode">
+            <div class="fi">🗂️</div>
+            <div class="ft"><h4>Pipeline CRM actualizado</h4><p>Kommo · etapa calificado</p></div>
+            <span class="fstatus">Synced</span>
+            <div class="fnode-connector"></div>
+          </div>
+          <div class="fnode">
+            <div class="fi">◻</div>
+            <div class="ft"><h4>Tarea creada en Notion</h4><p>Seguimiento del cliente</p></div>
+            <span class="fstatus">Logged</span>
+            <div class="fnode-connector"></div>
+          </div>
+          <div class="fnode">
+            <div class="fi">✓</div>
+            <div class="ft"><h4>Conversión registrada</h4><p>Lead → Cliente cerrado</p></div>
+            <span class="fstatus">Closed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auto-text r" style="transition-delay:.15s">
+        <p class="sec-label">Automatización</p>
+        <h2 class="sec-title" style="margin-bottom:1.5rem">Sistemas que<br>trabajan <em>24/7</em></h2>
+        <p>Construyo <strong>ecosistemas automatizados</strong> que capturan leads, los nutren con comunicación inteligente y los convierten en clientes — sin intervención manual constante.</p>
+        <p>Desde el primer clic en tu anuncio hasta el cierre de la venta, cada paso está orquestado con precisión usando las mejores plataformas del mercado.</p>
+        <div class="platforms">
+          <div class="plat"><div class="plat-dot"></div>Kommo CRM</div>
+          <div class="plat"><div class="plat-dot"></div>SendPulse</div>
+          <div class="plat"><div class="plat-dot"></div>Notion</div>
+          <div class="plat"><div class="plat-dot"></div>Meta Business</div>
+          <div class="plat"><div class="plat-dot"></div>WhatsApp API</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics" class="sec">
+  <div class="wrap">
+    <div class="r"><p class="sec-label">Resultados</p></div>
+    <h2 class="sec-title r">Números que<br><em>hablan solos</em></h2>
+    <div class="met-grid">
+      <div class="met r">
+        <div class="met-n" data-count="120">0</div>
+        <div class="met-l">Campañas lanzadas</div>
+        <div class="met-s">↑ Meta Ads</div>
+      </div>
+      <div class="met r" style="transition-delay:.1s">
+        <div class="met-n">3x</div>
+        <div class="met-l">ROAS promedio</div>
+        <div class="met-s">↑ Retorno</div>
+      </div>
+      <div class="met r" style="transition-delay:.2s">
+        <div class="met-n" data-count="80">0</div>
+        <div class="met-l">Clientes satisfechos</div>
+        <div class="met-s">↑ Alta retención</div>
+      </div>
+      <div class="met r" style="transition-delay:.3s">
+        <div class="met-n" data-count="50">0</div>
+        <div class="met-l">Bots construidos</div>
+        <div class="met-s">↑ Automatizaciones</div>
+      </div>
+    </div>
+    <div class="skills-cols">
+      <div class="r">
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Meta Ads / Trafficker</span><span class="sk-pct">95%</span></div><div class="sk-track"><div class="sk-fill" data-w="95"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Automatizaciones & Bots</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill" data-w="90"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Kommo CRM</span><span class="sk-pct">92%</span></div><div class="sk-track"><div class="sk-fill" data-w="92"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">SendPulse</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill" data-w="88"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Notion</span><span class="sk-pct">89%</span></div><div class="sk-track"><div class="sk-fill" data-w="89"></div></div></div>
+      </div>
+      <div class="r" style="transition-delay:.2s">
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Fotografía & Edición</span><span class="sk-pct">93%</span></div><div class="sk-track"><div class="sk-fill" data-w="93"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Diseño Gráfico</span><span class="sk-pct">87%</span></div><div class="sk-track"><div class="sk-fill" data-w="87"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Estrategia Digital</span><span class="sk-pct">91%</span></div><div class="sk-track"><div class="sk-fill" data-w="91"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Edición de Video</span><span class="sk-pct">85%</span></div><div class="sk-track"><div class="sk-fill" data-w="85"></div></div></div>
+        <div class="skill"><div class="sk-hd"><span class="sk-name">Identidad Visual</span><span class="sk-pct">86%</span></div><div class="sk-track"><div class="sk-fill" data-w="86"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="rl">
+        <div class="photo-wrap">
+          <div class="photo-box">
+            <div class="photo-corner tl"></div><div class="photo-corner tr"></div>
+            <div class="photo-corner bl"></div><div class="photo-corner br"></div>
+            <div class="photo-ph">[ foto de perfil ]</div>
+            <img id="profileImg" src="1.jpg" alt="Milver Paitan" style="display:block;"/>
+            
+          </div>
+        </div>
+      </div>
+      <div class="about-text r" style="transition-delay:.15s">
+        <p class="sec-label">Sobre mí</p>
+        <h2 class="sec-title" style="margin-bottom:1.2rem">Soy Milver<br><em>Paitan</em></h2>
+        <p>Especialista en <strong>marketing digital, automatizaciones y tráfico pagado</strong> con base en Lima, Perú. Combino la precisión técnica del mundo del data con la creatividad visual de la fotografía y el diseño.</p>
+        <p>Creo ecosistemas digitales completos: desde la campaña que atrae al cliente ideal, hasta el bot que lo convierte y el sistema en Notion que lo gestiona. Mi enfoque es siempre <strong>orientado a resultados, escalable y medible</strong>.</p>
+        <p>Con experiencia en gestión de grandes presupuestos en Meta Ads, implementación de CRMs, construcción de flujos automatizados y diseño de espacios de trabajo en Notion, ayudo a marcas a crecer de forma inteligente.</p>
+        <div class="about-divider"></div>
+        <div class="roles">
+          <span class="role">Trafficker Digital</span>
+          <span class="role">Meta Ads Specialist</span>
+          <span class="role">CRM Manager</span>
+          <span class="role">Notion Expert</span>
+          <span class="role">Bot Developer</span>
+          <span class="role">Fotógrafo</span>
+          <span class="role">Diseñador Visual</span>
+          <span class="role">Editor de Video</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="r"><p class="sec-label">Contacto</p></div>
+    <div class="ct-grid">
+      <div class="ct-text r">
+        <h2 class="sec-title" style="margin-bottom:1.2rem">¿Listo para<br><em>escalar?</em></h2>
+        <p>Cuéntame sobre tu negocio y objetivos. Diseñamos juntos una estrategia que conecte campañas, automatizaciones y creatividad para multiplicar tus resultados.</p>
+
+        <div class="ct-links">
+
+          <!-- CORREO -->
+          <a href="mailto:milverpaitan@gmail.com" target="_blank" class="ct-link">
+            <div class="ct-ico">✉</div> milverpaitan@gmail.com <span class="ct-arr">→</span>
+          </a>
+
+          <!-- INSTAGRAM -->
+          <a href="https://www.instagram.com/milverth/" target="_blank" class="ct-link">
+            <div class="ct-ico">◈</div> Instagram <span class="ct-arr">→</span>
+          </a>
+
+          <!-- LINKEDIN -->
+          <a href="https://www.linkedin.com/in/milver-paitan-5a571723a/" target="_blank" class="ct-link">
+            <div class="ct-ico">▣</div> LinkedIn <span class="ct-arr">→</span>
+          </a>
+
+          <!-- WHATSAPP -->
+          <a href="https://wa.link/dz9myy" target="_blank" class="ct-link">
+            <div class="ct-ico">◎</div> WhatsApp <span class="ct-arr">→</span>
+          </a>
+
+        </div>
+      </div>
+
+      <div class="r" style="transition-delay:.2s">
+        <form class="ct-form" onsubmit="sendForm(event)">
+          <div class="cf-g">
+            <label class="cf-l">Nombre completo</label>
+            <input class="cf-i" type="text" placeholder="Tu nombre" required/>
+          </div>
+          <div class="cf-g">
+            <label class="cf-l">Correo electrónico</label>
+            <input class="cf-i" type="email" placeholder="tu@empresa.com" required/>
+          </div>
+          <div class="cf-g">
+            <label class="cf-l">Tipo de proyecto</label>
+            <input class="cf-i" type="text" placeholder="Ej: Meta Ads + Automatizaciones"/>
+          </div>
+          <div class="cf-g">
+            <label class="cf-l">Mensaje</label>
+            <textarea class="cf-ta" placeholder="Cuéntame sobre tu negocio y qué quieres lograr..." required></textarea>
+          </div>
+          <button class="btn-send" type="submit" id="sendBtn">Enviar mensaje</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer>
+  <span class="f-logo">Milver <em>Paitan</em></span>
+  <span class="f-copy">© 2025 · Todos los derechos reservados</span>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function t(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  cur2.style.left=rx+'px';cur2.style.top=ry+'px';
+  requestAnimationFrame(t);})();
+document.querySelectorAll('a,button,.srv,.fnode,.plat,.role,.met,.ct-link,label').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('on-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('on-hover'));
+});
+
+// Nav
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>50));
+
+// Reveal
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.r,.rl').forEach(el=>obs.observe(el));
+
+// Metric top line reveal
+const mobs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');mobs.unobserve(e.target);}}),{threshold:.2});
+document.querySelectorAll('.met').forEach(el=>mobs.observe(el));
+
+// Counters
+const cobs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,target=+el.getAttribute('data-count');
+  let c=0;const step=target/55;
+  const ti=setInterval(()=>{c=Math.min(c+step,target);
+    el.textContent=Math.floor(c)+(target>=50?'+':'');
+    if(c>=target)clearInterval(ti);},18);
+  cobs.unobserve(el);
+}),{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+
+// Skill bars
+const bobs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.style.width=e.target.dataset.w+'%';
+  bobs.unobserve(e.target);
+}),{threshold:.2});
+document.querySelectorAll('.sk-fill').forEach(b=>bobs.observe(b));
+
+// Form
+function sendForm(e){
+  e.preventDefault();
+  const btn=document.getElementById('sendBtn');
+  btn.textContent='Enviado ✓';
+  btn.style.background='var(--accent)';
+  btn.style.color='var(--bg)';
+  setTimeout(()=>{btn.textContent='Enviar mensaje';btn.style.background='';btn.style.color='var(--accent)';},3500);
+}
+</script>
+</body>
+</html>
